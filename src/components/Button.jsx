@@ -8,14 +8,24 @@ export const Button = ({
     className = '',
     ...props
 }) => {
-    const baseStyles = "w-full flex items-center justify-center font-medium transition-all duration-200 active:scale-95";
+    const baseStyles = "w-full flex items-center relative overflow-hidden transition-all duration-200";
 
+    // Ultra-visible, high-contrast styles
     const variants = {
-        primary: "h-16 bg-white shadow-md rounded-[20px] text-lg hover:shadow-lg border border-transparent",
-        toss: "h-16 bg-[#0064FF] text-white shadow-md rounded-[20px] text-lg hover:bg-[#0052cc]",
-        naver: "h-16 bg-[#03C75A] text-white shadow-md rounded-[20px] text-lg hover:bg-[#02b351]",
-        outline: "h-12 bg-white/80 border border-gray-200 rounded-[16px] text-sm text-gray-700 hover:bg-white",
-        floating: "fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-[#FAE100] text-[#3C1E1E] px-6 py-3 rounded-full shadow-lg font-bold flex items-center gap-2 hover:shadow-xl"
+        // Copy Button: Clean White with strong border/shadow
+        primary: "h-[64px] bg-white rounded-[20px] shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-gray-200 active:scale-[0.98]",
+
+        // Toss: Solid Vibrant Blue
+        toss: "h-[64px] bg-[#0064FF] text-white rounded-[20px] shadow-[0_4px_12px_rgba(0,100,255,0.3)] active:scale-[0.98]",
+
+        // Naver: Solid Vibrant Green
+        naver: "h-[64px] bg-[#03C75A] text-white rounded-[20px] shadow-[0_4px_12px_rgba(3,199,90,0.3)] active:scale-[0.98]",
+
+        // Links: White small blocks
+        outline: "h-[56px] bg-white border border-gray-200 rounded-[16px] shadow-sm text-gray-700 active:scale-[0.98]",
+
+        // Small Footer Button (Yellow Pills)
+        floating: "h-[42px] bg-[#FAE100] text-[#371D1E] px-6 rounded-full text-sm font-bold shadow-sm active:scale-[0.98] inline-flex"
     };
 
     const Component = href ? motion.a : motion.button;
@@ -30,6 +40,10 @@ export const Button = ({
             whileTap={{ scale: 0.98 }}
             {...props}
         >
+            {/* Subtle shine effect overlay for premium feel */}
+            {(variant === 'toss' || variant === 'naver') && (
+                <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+            )}
             {children}
         </Component>
     );

@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, CreditCard, MessageCircle, ExternalLink, MessageSquare } from 'lucide-react';
+import { Copy, MessageCircle, ExternalLink, MessageSquare } from 'lucide-react';
 import { Header } from './components/Header';
 import { Button } from './components/Button';
 import { Toast } from './components/Toast';
-import bgImage from './assets/bg.png';
 
 function App() {
   const [showToast, setShowToast] = useState(false);
 
   const handleCopy = () => {
-    // 3333-25-3076694 (KakaoBank)
     const account = "3333-25-3076694";
     navigator.clipboard.writeText(account).then(() => {
       setShowToast(true);
@@ -18,121 +16,172 @@ function App() {
     });
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 }
+  };
+
   return (
-    <div className="min-h-screen relative flex flex-col items-center">
-      {/* Background with Overlay */}
-      <div className="fixed inset-0 z-0">
-        <img
-          src={bgImage}
-          alt="Background"
-          className="w-full h-full object-cover opacity-60 blur-sm scale-110"
-        />
-        <div className="absolute inset-0 bg-white/40" />
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="h-[100dvh] w-full bg-[#f8f9fa] text-[#111111] flex flex-col items-center py-6 px-5 max-w-md mx-auto relative overflow-hidden"
+    >
+
+      {/* 1. Header */}
+      <motion.div variants={itemVariants} className="flex-none mb-4">
+        <Header />
+      </motion.div>
+
+      {/* 2. Content Area (Pushes to center/top, flexible) */}
+      <div className="w-full flex-1 flex flex-col gap-8">
+
+        {/* Payment Buttons Group */}
+        <div className="flex flex-col gap-3 w-full">
+          <motion.div variants={itemVariants}>
+            <Button
+              variant="toss"
+              href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333253076694&origin=qr"
+              className="px-6 relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-full flex items-center justify-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <span className="font-bold text-lg text-white">t</span>
+                </div>
+                <span className="text-[18px] font-bold">토스페이로 송금하기</span>
+              </div>
+            </Button>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Button
+              variant="naver"
+              href="https://pay.naver.com/remit/qr/inflow?v=1&a=3333253076694&c=090&d=9b658dc2b7e67c459212100128925839"
+              className="px-6 relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-full flex items-center justify-center gap-3">
+                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                  <span className="font-bold text-lg text-white">N</span>
+                </div>
+                <span className="text-[18px] font-bold">네이버페이로 송금하기</span>
+              </div>
+            </Button>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Button
+              variant="primary"
+              onClick={() => {
+                const account = "3333-25-3076694";
+                // Robust copy with fallback
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  navigator.clipboard.writeText(account).then(() => {
+                    setShowToast(true);
+                    setTimeout(() => setShowToast(false), 2000);
+                  }).catch(err => {
+                    // Fallback if promise fails
+                    const textArea = document.createElement("textarea");
+                    textArea.value = account;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                      document.execCommand('copy');
+                      setShowToast(true);
+                      setTimeout(() => setShowToast(false), 2000);
+                    } catch (err) {
+                      console.error('Copy failed', err);
+                    }
+                    document.body.removeChild(textArea);
+                  });
+                } else {
+                  // Fallback for older browsers/webviews
+                  const textArea = document.createElement("textarea");
+                  textArea.value = account;
+                  document.body.appendChild(textArea);
+                  textArea.select();
+                  try {
+                    document.execCommand('copy');
+                    setShowToast(true);
+                    setTimeout(() => setShowToast(false), 2000);
+                  } catch (err) {
+                    console.error('Copy failed', err);
+                  }
+                  document.body.removeChild(textArea);
+                }
+              }}
+              className="px-6 justify-center"
+            >
+              <div className="flex items-center gap-3">
+                <Copy size={18} className="text-gray-500" />
+                <span className="text-[16px] font-bold text-gray-800">계좌 복사하기</span>
+              </div>
+            </Button>
+          </motion.div>
+        </div>
+
+        {/* Community Section */}
+        <div className="w-full flex flex-col gap-2 mt-2">
+          <motion.div variants={itemVariants} className="text-center">
+            <p className="text-[13px] font-bold text-[#111111] bg-white/50 inline-block px-3 py-1 rounded-full border border-black/5">
+              📢 창고 개방 및 온라인 판매 공지를 받고 싶다면?
+            </p>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className="grid grid-cols-2 gap-3">
+            <Button
+              variant="outline"
+              href="https://open.kakao.com/o/gRa7iRbi"
+              className="justify-center"
+            >
+              <div className="flex items-center gap-2">
+                <MessageCircle size={18} className="text-[#3E2723]" />
+                <span className="text-[15px] font-bold text-gray-700">카톡 공지방</span>
+              </div>
+            </Button>
+
+            <Button
+              variant="outline"
+              href="https://band.us/@yjtexlab"
+              className="justify-center"
+            >
+              <div className="flex items-center gap-2">
+                <ExternalLink size={18} className="text-[#03C75A]" />
+                <span className="text-[15px] font-bold text-gray-700">네이버 밴드</span>
+              </div>
+            </Button>
+          </motion.div>
+        </div>
+
       </div>
 
-      {/* Content Container */}
-      <main className="relative z-10 w-full max-w-md px-6 flex flex-col min-h-screen pb-24">
-
-        <Header />
-
-        {/* Main Section: Payment Buttons */}
-        <div className="flex flex-col gap-4 mb-8">
-
-          {/* Toss Pay */}
-          <Button
-            variant="toss"
-            href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333253076694&origin=qr"
-            className="justify-between px-6"
-          >
-            <span className="flex items-center gap-3">
-              {/* SVG Logo specific for Toss could go here, usually blue 't' */}
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <span className="font-bold text-lg">t</span>
-              </div>
-              토스페이로 송금하기
-            </span>
-          </Button>
-
-          {/* Naver Pay */}
-          <Button
-            variant="naver"
-            href="https://pay.naver.com/remit/qr/inflow?v=1&a=3333253076694&c=090&d=9b658dc2b7e67c459212100128925839"
-            className="justify-between px-6"
-          >
-            <span className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                <span className="font-bold text-lg">N</span>
-              </div>
-              네이버페이로 송금하기
-            </span>
-          </Button>
-
-          {/* Copy Account */}
-          <Button
-            variant="primary"
-            onClick={handleCopy}
-            className="justify-between px-6 text-gray-700 hover:text-gray-900"
-          >
-            <span className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-600">
-                <Copy size={18} />
-              </div>
-              <div className="flex flex-col items-start leading-tight">
-                <span className="text-sm text-gray-500">카카오뱅크</span>
-                <span className="font-semibold">3333-25-3076694</span>
-              </div>
-            </span>
-            <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-md">복사하기</span>
-          </Button>
-        </div>
-
-        {/* Sub Section: Community Links */}
-        <div className="grid grid-cols-2 gap-3 mb-8">
-          <Button
-            variant="outline"
-            href="https://open.kakao.com/o/gRa7iRbi"
-          >
-            <div className="flex items-center gap-2">
-              <MessageCircle size={16} className="text-yellow-900" />
-              <span>카톡 공지방</span>
-            </div>
-          </Button>
-
-          <Button
-            variant="outline"
-            href="https://band.us/@yjtexlab"
-          >
-            <div className="flex items-center gap-2">
-              <ExternalLink size={16} className="text-green-600" />
-              <span>네이버 밴드</span>
-            </div>
-          </Button>
-        </div>
-
-        {/* Footer Text / Branding */}
-        <div className="mt-auto text-center pb-8">
-          <p className="text-xs text-gray-400">
-            © YJ TexLab. All rights reserved.
-          </p>
-        </div>
-
-        {/* Floating Action Button (1:1 Inquiry) */}
+      {/* 3. Footer (Bottom Fixed area) */}
+      <motion.div variants={itemVariants} className="flex-none pt-4 pb-2">
         <Button
           variant="floating"
           href="http://pf.kakao.com/_LRAAX"
         >
-          <MessageSquare size={20} fill="#3C1E1E" />
+          <MessageSquare size={16} fill="#371D1E" strokeWidth={0} />
           <span>1:1 문의하기</span>
         </Button>
-
-      </main>
+      </motion.div>
 
       <Toast
         message="계좌번호가 복사되었습니다"
         isVisible={showToast}
         onClose={() => setShowToast(false)}
       />
-    </div>
+    </motion.div>
   );
 }
 
