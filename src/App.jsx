@@ -83,7 +83,7 @@ function App() {
             <Button
               variant="primary"
               onClick={() => {
-                const account = "3333-25-3076694";
+                const account = "카카오뱅크 3333-25-3076694";
                 // Robust copy with fallback
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                   navigator.clipboard.writeText(account).then(() => {
