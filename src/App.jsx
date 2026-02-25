@@ -16,6 +16,26 @@ function App() {
     });
   };
 
+  const handleNaverPay = (e) => {
+    if (e) e.preventDefault();
+    const webUrl = "https://pay.naver.com/remit/input?inflow=account&inflowSubType=qr&rKey=715eb1f132c9bac7e8846c78a12d36e2fce1e0b178569b155fcbf0ae48fa30d9";
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // 딥링크: 네이버 앱 강제 실행
+      const naverAppUrl = `naversearchapp://inappbrowser?url=${encodeURIComponent(webUrl)}&target=blank&version=1`;
+      window.location.href = naverAppUrl;
+
+      // 네이버 앱이 없을 경우를 대비한 폴백 처리 (1.5초 후 실행)
+      setTimeout(() => {
+        window.location.href = webUrl;
+      }, 1500);
+    } else {
+      // PC 등 모바일이 아닌 환경에서는 일반 웹 링크
+      window.location.href = webUrl;
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -66,7 +86,7 @@ function App() {
           <motion.div variants={itemVariants}>
             <Button
               variant="naver"
-              href="https://pay.naver.com/remit/input?inflow=account&inflowSubType=qr&rKey=715eb1f132c9bac7e8846c78a12d36e2fce1e0b178569b155fcbf0ae48fa30d9"
+              onClick={handleNaverPay}
               className="px-6 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
