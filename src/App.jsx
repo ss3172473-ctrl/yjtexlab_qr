@@ -9,7 +9,7 @@ function App() {
   const [showToast, setShowToast] = useState(false);
 
   const handleCopy = () => {
-    const account = "3333-25-3076694";
+    const account = "3333-36-3630684";
     navigator.clipboard.writeText(account).then(() => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
@@ -50,7 +50,7 @@ function App() {
           <motion.div variants={itemVariants}>
             <Button
               variant="toss"
-              href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333253076694&origin=qr"
+              href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333363630684&origin=qr"
               className="px-6 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -66,7 +66,7 @@ function App() {
           <motion.div variants={itemVariants}>
             <Button
               variant="naver"
-              href="https://pay.naver.com/remit/qr/inflow?v=1&a=3333253076694&c=090&d=9b658dc2b7e67c459212100128925839"
+              href="https://pay.naver.com/remit/input?inflow=account&inflowSubType=qr&rKey=715eb1f132c9bac7e8846c78a12d36e2fce1e0b178569b155fcbf0ae48fa30d9"
               className="px-6 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -83,7 +83,7 @@ function App() {
             <Button
               variant="primary"
               onClick={() => {
-                const account = "카카오뱅크 3333-25-3076694";
+                const account = "카카오뱅크 3333-36-3630684";
                 // Robust copy with fallback
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                   navigator.clipboard.writeText(account).then(() => {
