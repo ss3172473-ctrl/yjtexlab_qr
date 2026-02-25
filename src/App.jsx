@@ -18,7 +18,7 @@ function App() {
 
   const handleNaverPay = (e) => {
     if (e) e.preventDefault();
-    const webUrl = "https://pay.naver.com/remit/input?inflow=account&inflowSubType=qr&rKey=715eb1f132c9bac7e8846c78a12d36e2fce1e0b178569b155fcbf0ae48fa30d9";
+    const webUrl = "https://pay.naver.com/remit/bridge/app?originUrl=https%3A%2F%2Fpay.naver.com%2Fremit%2Fqr%2Finflow%3Fv%3D1%26a%3D3333363630684%26c%3D090%26d%3D2108fcde43935e6353fe6757955aedbb";
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
