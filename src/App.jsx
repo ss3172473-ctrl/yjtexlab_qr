@@ -9,7 +9,7 @@ function App() {
   const [showToast, setShowToast] = useState(false);
 
   const handleCopy = () => {
-    const account = "3333-36-3630684";
+    const account = "3333-25-3076694";
     navigator.clipboard.writeText(account).then(() => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2000);
@@ -18,7 +18,7 @@ function App() {
 
   const handleNaverPay = (e) => {
     if (e) e.preventDefault();
-    const webUrl = "https://pay.naver.com/remit/bridge/app?originUrl=https%3A%2F%2Fpay.naver.com%2Fremit%2Fqr%2Finflow%3Fv%3D1%26a%3D3333363630684%26c%3D090%26d%3D2108fcde43935e6353fe6757955aedbb";
+    const webUrl = "https://pay.naver.com/remit/bridge/app?originUrl=https%3A%2F%2Fpay.naver.com%2Fremit%2Fqr%2Finflow%3Fv%3D1%26a%3D3333253076694%26c%3D090%26d%3D9b658dc2b7e67c459212100128925839";
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     if (isMobile) {
@@ -70,7 +70,7 @@ function App() {
           <motion.div variants={itemVariants}>
             <Button
               variant="toss"
-              href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333363630684&origin=qr"
+              href="supertoss://send?amount=0&bank=%EC%B9%B4%EC%B9%B4%EC%98%A4%EB%B1%85%ED%81%AC&accountNo=3333253076694&origin=qr"
               className="px-6 relative overflow-hidden group"
             >
               <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -103,7 +103,7 @@ function App() {
             <Button
               variant="primary"
               onClick={() => {
-                const account = "카카오뱅크 3333-36-3630684";
+                const account = "카카오뱅크 3333-25-3076694";
                 // Robust copy with fallback
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                   navigator.clipboard.writeText(account).then(() => {
