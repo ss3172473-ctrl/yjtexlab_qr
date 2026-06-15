@@ -1,4 +1,11 @@
 {
+    "redirects": [
+        {
+            "source": "/(.*)",
+            "destination": "https://link.yjtexlab.com/qr",
+            "permanent": true
+        }
+    ],
     "headers": [
         {
             "source": "/(.*)",
